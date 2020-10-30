@@ -6,7 +6,9 @@
 
 [build.environment]
   NODE_VERSION = "lts/*"
+  # TODO remove
   TRAVIS_MODE = "netlifyBranch"
 
 [context.deploy-preview.environment]
+  # TODO remove
   TRAVIS_MODE = "netlifyPr"

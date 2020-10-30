@@ -6,14 +6,14 @@ jobs:
   config:
     runs-on: ubuntu-latest
     outputs:
-      canUseSauce: ${{ steps.build_config.outputs.canUseSauce }}
+      canUseSauce: ${{ steps.check_sauce_access.outputs.result }}
       tag: ${{ steps.extract_tag.outputs.result }}
     steps:
-      - name: build config
-        id: build_config
+      - name: check sauce access
+        id: check_sauce_access
         run: |
           if ! [[  -z "$SAUCE_USERNAME" ]] && ! [[ -z "$SAUCE_ACCESS_KEY" ]]; then
-            echo "::set-output name=canUseSauce::true"
+            echo "::set-output name=result::true"
           fi
         env:
           CI: true
@@ -56,7 +56,7 @@ jobs:
       - name: install and build
         run: |
           npm ci
-          # TRAVIS_MODE=release node ./scripts/set-package-version.js
+          node ./scripts/set-package-version.js
           npm run lint
           npm run type-check
           npm run build
